@@ -24,8 +24,16 @@ public class ClientController {
 	}
 	
 	@GetMapping("/factorial/{number}")
-	public ResponseEntity<String> connect(@PathVariable int number) {
+	public ResponseEntity<String> factorial(@PathVariable int number) {
 		String url = "http://localhost:8073/rest/service/factorial/"+number;
+		
+		ResponseEntity<String> response = template.getForEntity(url, String.class);
+		return response;
+	}
+	
+	@GetMapping("/square/{number}")
+	public ResponseEntity<String> square(@PathVariable int number) {
+		String url = "http://localhost:8073/rest/service/square/"+number;
 		
 		ResponseEntity<String> response = template.getForEntity(url, String.class);
 		return response;
