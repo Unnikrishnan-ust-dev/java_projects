@@ -6,7 +6,7 @@ spring:
     password: pass@word1
 
 server:
-  port: 9080
+  port: 8071
   
   
   
