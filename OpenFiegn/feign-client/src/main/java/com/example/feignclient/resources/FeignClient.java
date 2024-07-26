@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.feignclient.interfaces.FeignInterface;
 import com.example.feignclient.model.Product;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 @RestController
 @RequestMapping("/client")
 public class FeignClient {
 	 @Autowired
 	 private FeignInterface feignclient;																																							//http://localhost:7082/client/allProducts
 
+	 @CircuitBreaker(name = "client-cb",fallbackMethod = "generateResponse")
 	 @GetMapping("/allProducts")
 	 public List<Product> getAll() {
 		  return feignclient.getProducts();
@@ -25,7 +28,6 @@ public class FeignClient {
 	 																																												//http://localhost:7082/client/products-by-id/
 	 @GetMapping("/products-by-id/{id}")
 		public Product getProductById(@PathVariable ("id") int id) {
-		   System.out.println(id);
 		   return feignclient.getProductsById(id);
 	 }
 
@@ -33,6 +35,10 @@ public class FeignClient {
 	 @GetMapping("/products-by-category/{category}")
 		public List<Product> getProductsByCategory(@PathVariable("category") String category){
 		     return feignclient.getProductsByCategory(category);
+	 }
+	 
+	 public String generateResponse(Throwable throwable) {
+		 return "The server is unavailable temporarily.Please try after some time";
 	 }
 
 

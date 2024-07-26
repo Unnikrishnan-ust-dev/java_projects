@@ -44,7 +44,7 @@ public class HelloController {
 	@GetMapping("/random")
 	public ResponseEntity<String> getRandom() {
 		String url = "https://bored-api.appbrewery.com/random";
-		ResponseEntity<String> response = template.getForEntity(url, null)
+		ResponseEntity<String> response = template.getForEntity(url, null);
 		return response;
 	}
 }
